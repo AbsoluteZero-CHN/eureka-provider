@@ -26,6 +26,11 @@ public class WelcomeRest {
 
     @GetMapping("/index")
     public String index() {
+        client.getServices().forEach(id -> {
+            client.getInstances(id).forEach(instance -> {
+                logger.info("host: " + instance.getHost() + " service_id: " + instance.getServiceId());
+            });
+        });
         return "Hello World";
     }
 }
