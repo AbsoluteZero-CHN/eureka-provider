@@ -25,12 +25,19 @@ public class WelcomeRest {
 
 
     @GetMapping("/index")
-    public String index() {
+    public String index() throws InterruptedException {
         client.getServices().forEach(id -> {
             client.getInstances(id).forEach(instance -> {
                 logger.info("host: " + instance.getHost() + " service_id: " + instance.getServiceId());
             });
         });
+
+        /**
+         * 为使断路器生效, 此处休眠 5 秒
+         * Hystrix 默认超时时间为 2000 毫秒
+         * */
+        Thread.sleep(5000);
+
         return "Hello World";
     }
 }
